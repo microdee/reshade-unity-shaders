@@ -123,7 +123,7 @@ uniform int bGAP_alternateGrayscale <
 
 uniform int iGAP_ditherMode <
 	ui_type = "combo";
-	ui_items = "No Dithering\0Horizontal Lines\0Vertical Lines\0Ordered 2x2\0Ordered Alternative 2x2\0Uniform Noise\0Triangle Noise\0Blue Noise\0Analytical Matrix\0";
+	ui_items = "No Dithering\0Horizontal Lines\0Vertical Lines\0Ordered 2x2\0Ordered Alternative 2x2\0Uniform Noise\0Triangle Noise\0Blue Noise\0Analytical Matrix\0Screenspace Dither\0Interleaved Gradient Noise\0";
 	ui_label = "Dither Mode [Graphics Adapter Pro]";
 	ui_tooltip = "Switches between dithering patterns.";
 > = 0;
@@ -332,6 +332,27 @@ float bayer32(float2 a)  {return bayer8( .25*a)  * .0625   + bayer4(a); }
 float bayer64(float2 a)  {return bayer8( .125*a) * .015625 + bayer8(a); }
 float bayer128(float2 a) {return bayer16(.125*a) * .015625 + bayer8(a); }
 
+//ScreenSpaceDither
+float3 ScreenSpaceDither( float2 vScreenPos )
+{
+	// Iestyn's RGB dither (7 asm instructions) from Portal 2 X360, slightly modified for VR
+	//vec3 vDither = vec3( dot( vec2( 171.0, 231.0 ), vScreenPos.xy + iTime ) );
+    float3 vDither = float3( dot( float2( 171.0, 231.0 ), vScreenPos.xy ), dot( float2( 171.0, 231.0 ), vScreenPos.xy ), dot( float2( 171.0, 231.0 ), vScreenPos.xy ) );
+    vDither.rgb = frac( vDither.rgb / float3( 103.0, 71.0, 97.0 ) );
+    return vDither.rgb / 255.0; //note: looks better without 0.375...
+
+    //note: not sure why the 0.5-offset is there...
+    //vDither.rgb = fract( vDither.rgb / vec3( 103.0, 71.0, 97.0 ) ) - vec3( 0.5, 0.5, 0.5 );
+	//return (vDither.rgb / 255.0) * 0.375;
+}
+
+//Interleaved Gradient Noise
+float InterleavedGradientNoise( float2 uv )
+{
+    static const float3 magic = float3( 0.06711056, 0.00583715, 52.9829189 );
+    return frac( magic.z * frac( dot( uv, magic.xy ) ) );
+}
+
 float3 dither(float3 col, float2 p) {
 
 	float2 xx = float2(320.0, 240.0); //output screen res				
@@ -343,6 +364,7 @@ float3 dither(float3 col, float2 p) {
 	}
 	
 	float2 p_ = p;
+	float2 shp_ = p_ * xx; //UVs in Texels for Shadertoy
 
 	//Dither modes :
 
@@ -399,32 +421,40 @@ float3 dither(float3 col, float2 p) {
 
 	//7 blue noise
 	if (iGAP_ditherMode == 7){
-		float2 u = p_ * xx;
-		d = mod(u.x+u.y+mod(208.+u.x*3.58,13.+mod(u.y*22.9, 9.)),7.)*.143-d;
+		d = mod(shp_.x+shp_.y+mod(208.+shp_.x*3.58,13.+mod(shp_.y*22.9, 9.)),7.)*.143-d;
 		
 		if (bGAP_temporalNoise){
-			d = mod(((u.x+u.y)+Timer*0.001)+mod((208.+u.x*3.58)+Timer*0.001,13.+mod((u.y*22.9)+Timer*0.001, 9.)),7.)*.143-d;
+			d = mod(((shp_.x+shp_.y)+Timer*0.001)+mod((208.+shp_.x*3.58)+Timer*0.001,13.+mod((shp_.y*22.9)+Timer*0.001, 9.)),7.)*.143-d;
 		}
 	}
 	
 	//8 analytical bayer
 	if (iGAP_ditherMode == 8){
-		float2 u_ = p_ * xx;
 		if (iGAP_bayerMode == 0){
-			d = bayer2(u_)-.375;
+			d = bayer2(shp_)-.375;
 		} else if (iGAP_bayerMode == 1){
-			d = bayer4(u_)-.46875;
+			d = bayer4(shp_)-.46875;
 		} else if (iGAP_bayerMode == 2){
-			d = bayer8(u_)-.4921875;
+			d = bayer8(shp_)-.4921875;
 		} else if (iGAP_bayerMode == 3){
-			d = bayer16(u_)-.498046875;
+			d = bayer16(shp_)-.498046875;
 		} else if (iGAP_bayerMode == 4){
-			d = bayer32(u_)-.499511719;
+			d = bayer32(shp_)-.499511719;
 		} else if (iGAP_bayerMode == 5){
-			d = bayer64(u_)-.49987793;
+			d = bayer64(shp_)-.49987793;
 		} else if (iGAP_bayerMode == 6){
-			d = bayer128(u_)-.499969482;
+			d = bayer128(shp_)-.499969482;
 		}
+	}
+	
+	//9 screenspace dithering
+	if (iGAP_ditherMode == 9){
+		d = ScreenSpaceDither( shp_ ) * (fGAP_ditherAmount * 100);
+	}
+	
+	//10 interleaved gradient noise
+	if (iGAP_ditherMode == 10){
+		d = (InterleavedGradientNoise( shp_ ) / 255.0) * (fGAP_ditherAmount*100);
 	}
 
 	//amount of colors per channel
