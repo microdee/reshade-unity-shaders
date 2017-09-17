@@ -123,7 +123,7 @@ uniform int bGAP_alternateGrayscale <
 
 uniform int iGAP_ditherMode <
 	ui_type = "combo";
-	ui_items = "No Dithering\0Horizontal Lines\0Vertical Lines\0Ordered 2x2\0Ordered Alternative 2x2\0Uniform Noise\0Triangle Noise\0Blue Noise\0Analytical Matrix\0Screenspace Dither\0Interleaved Gradient Noise\0";
+	ui_items = "No Dithering\0Horizontal Lines\0Vertical Lines\0Ordered 2x2\0Ordered Alternative 2x2\0Uniform Noise\0Triangle Noise\0Blue Noise\0Analytical Matrix\0Screenspace Dither\0Interleaved Gradient Noise\0Ceejay Dithering\0Three-Step Noise\0";
 	ui_label = "Dither Mode [Graphics Adapter Pro]";
 	ui_tooltip = "Switches between dithering patterns.";
 > = 0;
@@ -353,6 +353,47 @@ float InterleavedGradientNoise( float2 uv )
     return frac( magic.z * frac( dot( uv, magic.xy ) ) );
 }
 
+//3-step noise
+float Noise(float2 n,float x){n+=x;return frac(sin(dot(n.xy,float2(12.9898, 78.233)))*43758.5453)*2.0-1.0;}
+float Step1(float2 uv,float n){
+    float a=1.0,b=2.0,c=-12.0,t=1.0;   
+    return (1.0/(a*4.0+b*4.0-c))*(
+        Noise(uv+float2(-1.0,-1.0)*t,n)*a+
+        Noise(uv+float2( 0.0,-1.0)*t,n)*b+
+        Noise(uv+float2( 1.0,-1.0)*t,n)*a+
+        Noise(uv+float2(-1.0, 0.0)*t,n)*b+
+        Noise(uv+float2( 0.0, 0.0)*t,n)*c+
+        Noise(uv+float2( 1.0, 0.0)*t,n)*b+
+        Noise(uv+float2(-1.0, 1.0)*t,n)*a+
+        Noise(uv+float2( 0.0, 1.0)*t,n)*b+
+        Noise(uv+float2( 1.0, 1.0)*t,n)*a+
+        0.0);}
+
+float Step2(float2 uv,float n){
+    float a=1.0,b=2.0,c=-2.0,t=1.0;
+    return (4.0/(a*4.0+b*4.0-c))*(
+        Step1(uv+float2(-1.0,-1.0)*t,n)*a+
+        Step1(uv+float2( 0.0,-1.0)*t,n)*b+
+        Step1(uv+float2( 1.0,-1.0)*t,n)*a+
+        Step1(uv+float2(-1.0, 0.0)*t,n)*b+
+        Step1(uv+float2( 0.0, 0.0)*t,n)*c+
+        Step1(uv+float2( 1.0, 0.0)*t,n)*b+
+        Step1(uv+float2(-1.0, 1.0)*t,n)*a+
+        Step1(uv+float2( 0.0, 1.0)*t,n)*b+
+        Step1(uv+float2( 1.0, 1.0)*t,n)*a+
+        0.0);}
+
+float3 Step3(float2 uv){
+    float a=Step2(uv,0.07);    
+    return float3(a,a,a);
+}
+
+float3 Step3T(float2 uv){
+    float a=Step2(uv,0.07*(frac(Timer*0.001)+1.0));    
+    float b=Step2(uv,0.11*(frac(Timer*0.001)+1.0));    
+    float c=Step2(uv,0.13*(frac(Timer*0.001)+1.0));
+    return float3(a,b,c);}
+
 float3 dither(float3 col, float2 p) {
 
 	float2 xx = float2(320.0, 240.0); //output screen res				
@@ -455,6 +496,35 @@ float3 dither(float3 col, float2 p) {
 	//10 interleaved gradient noise
 	if (iGAP_ditherMode == 10){
 		d = (InterleavedGradientNoise( shp_ ) / 255.0) * (fGAP_ditherAmount*100);
+	}
+	
+	//11 ceejay dithering
+	if (iGAP_ditherMode == 11){
+		//note: from comment by CeeJayDK
+		float dither_bit = 8.0; //Bit-depth of display. Normally 8 but some LCD monitors are 7 or even 6-bit.	
+
+		//Calculate grid position
+		float grid_position = frac( dot( shp_.xy - float2(0.5,0.5) , float2(1.0/16.0,10.0/36.0) + 0.25 ) );
+
+		//Calculate how big the shift should be
+		float dither_shift = (0.25) * (1.0 / (pow(2.0,dither_bit) - 1.0));
+
+		//Shift the individual colors differently, thus making it even harder to see the dithering pattern
+		float3 dither_shift_RGB = float3(dither_shift, -dither_shift, dither_shift); //subpixel dithering
+
+		//modify shift acording to grid position.
+		dither_shift_RGB = lerp(2.0 * dither_shift_RGB, -2.0 * dither_shift_RGB, grid_position); //shift acording to grid position.
+
+		//shift the color by dither_shift
+		d = dither_shift_RGB * (fGAP_ditherAmount*100); 
+	}
+	
+	//12 three-step dithering
+	if (iGAP_ditherMode == 12){
+		d = (0.5+Step3(shp_.xy))/255.0 * (fGAP_ditherAmount*100);
+		if (bGAP_temporalNoise){
+			d = (0.5+Step3T(shp_.xy))/255.0 * (fGAP_ditherAmount*100);
+		}
 	}
 
 	//amount of colors per channel
