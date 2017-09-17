@@ -123,9 +123,16 @@ uniform int bGAP_alternateGrayscale <
 
 uniform int iGAP_ditherMode <
 	ui_type = "combo";
-	ui_items = "No Dithering\0Horizontal Lines\0Vertical Lines\0Ordered 2x2\0Ordered Alternative 2x2\0Uniform Noise\0Triangle Noise\0";
+	ui_items = "No Dithering\0Horizontal Lines\0Vertical Lines\0Ordered 2x2\0Ordered Alternative 2x2\0Uniform Noise\0Triangle Noise\0Blue Noise\0Analytical Matrix\0";
 	ui_label = "Dither Mode [Graphics Adapter Pro]";
 	ui_tooltip = "Switches between dithering patterns.";
+> = 0;
+
+uniform int iGAP_bayerMode <
+	ui_type = "combo";
+	ui_items = "Ordered 2x2\0Ordered 4x4\0Ordered 8x8\0Ordered 16x16\0Ordered 32x32\0Ordered 64x64\0Ordered 128x128\0";
+	ui_label = "Bayer Mode [Graphics Adapter Pro]";
+	ui_tooltip = "Switches between bayer patterns (Analytical Matrix).";
 > = 0;
 
 uniform float fGAP_ditherAmount <
@@ -135,6 +142,12 @@ uniform float fGAP_ditherAmount <
 	ui_label = "Dither Amount [Graphics Adapter Pro]";
 	ui_tooltip = "Amount of dithering applied on the image.";
 > = 1.0;
+
+uniform bool bGAP_temporalNoise <
+	ui_type = "combo";
+	ui_label = "Temporal Dithering [Graphics Adapter Pro]";
+	ui_tooltip = "Makes Noise ditherings temporal.";
+> = false;
 
 uniform bool bGAP_doSubsampling <
 	ui_type = "combo";
@@ -189,6 +202,8 @@ uniform int iGAP_Filter <
 //system variables/////////////////////////////////////////////////////////////////////////////////////
 
 static const float3 MOD3 = float3(443.8975, 397.2973, 491.1871);
+
+uniform float Timer < source = "timer"; >;
 
 #ifndef iGAP_deltaDX9
 	#define iGAP_deltaDX9 5 //DX9 Fix
@@ -263,6 +278,11 @@ sampler2D sBackground
 
 //functions////////////////////////////////////////////////////////////////////////////////////////////
 
+float mod(float x, float y)
+{
+	return x - y * floor (x/y);
+}
+
 float fmod(float a, float b)
 {
   float c = frac(abs(a/b))*abs(b);
@@ -298,6 +318,19 @@ float2 p_sh(float2 p_){
 	return 0.5*float2(step(0.0, 1.0-ar.y)*(1.0-1.0/ar.y),
 					  step(1.0, ar.y)*(1.0-ar.y));
 }
+
+//Analytical Bayer
+float bayer2(float2 a){
+    a = floor(a);
+    return frac(dot(a,float2(.5, a.y*.75)));
+}
+
+float bayer4(float2 a)   {return bayer2( .5*a)   * .25     + bayer2(a); }
+float bayer8(float2 a)   {return bayer4( .5*a)   * .25     + bayer2(a); }
+float bayer16(float2 a)  {return bayer4( .25*a)  * .0625   + bayer4(a); }
+float bayer32(float2 a)  {return bayer8( .25*a)  * .0625   + bayer4(a); }
+float bayer64(float2 a)  {return bayer8( .125*a) * .015625 + bayer8(a); }
+float bayer128(float2 a) {return bayer16(.125*a) * .015625 + bayer8(a); }
 
 float3 dither(float3 col, float2 p) {
 
@@ -338,6 +371,7 @@ float3 dither(float3 col, float2 p) {
 		d = m.x+m.y+m.z+m.w;
 	}
 
+	//4 alternate 2x2 ordered
 	if(iGAP_ditherMode == 4){
 		float2 pxx = (p_-p_sh(p_))*xx+p_sh(p_);	
 		float2 s = floor( frac( floor(abs( pxx )) / 2.0 ) * 2.0 );						
@@ -347,13 +381,51 @@ float3 dither(float3 col, float2 p) {
 
 	//5 uniform noise
 	if (iGAP_ditherMode == 5){
-			d = hash12(p_).xxx;
+		d = hash12(p_).xxx;
+		
+		if (bGAP_temporalNoise){
+			d = hash12(p_ + Timer*0.001).xxx;
+		}
 	}
 
+	//6 triangle noise
 	if (iGAP_ditherMode == 6){
         d = (hash12(p_) + hash12(p_ + 0.59374) - 0.5).xxx;
-	}				
+		
+		if (bGAP_temporalNoise){
+			d = (hash12(p_ + Timer*0.001) + hash12((p_ + 0.59374) + Timer*0.001) - 0.5).xxx;
+		}
+	}
 
+	//7 blue noise
+	if (iGAP_ditherMode == 7){
+		float2 u = p_ * xx;
+		d = mod(u.x+u.y+mod(208.+u.x*3.58,13.+mod(u.y*22.9, 9.)),7.)*.143-d;
+		
+		if (bGAP_temporalNoise){
+			d = mod(((u.x+u.y)+Timer*0.001)+mod((208.+u.x*3.58)+Timer*0.001,13.+mod((u.y*22.9)+Timer*0.001, 9.)),7.)*.143-d;
+		}
+	}
+	
+	//8 analytical bayer
+	if (iGAP_ditherMode == 8){
+		float2 u_ = p_ * xx;
+		if (iGAP_bayerMode == 0){
+			d = bayer2(u_)-.375;
+		} else if (iGAP_bayerMode == 1){
+			d = bayer4(u_)-.46875;
+		} else if (iGAP_bayerMode == 2){
+			d = bayer8(u_)-.4921875;
+		} else if (iGAP_bayerMode == 3){
+			d = bayer16(u_)-.498046875;
+		} else if (iGAP_bayerMode == 4){
+			d = bayer32(u_)-.499511719;
+		} else if (iGAP_bayerMode == 5){
+			d = bayer64(u_)-.49987793;
+		} else if (iGAP_bayerMode == 6){
+			d = bayer128(u_)-.499969482;
+		}
+	}
 
 	//amount of colors per channel
 	float3 dv = float(0.0).xxx;
