@@ -24,7 +24,7 @@ uniform bool VHS_Bleed <
 
 uniform int VHS_BleedMode <
 	ui_type = "combo";
-	ui_items = "Three Phase\0Old Three Phase\0Two Phase (slow)\0Three-Phase (RetroArch)\0Two Phase (RetroArch)";
+	ui_items = "Three Phase\0Old Three Phase\0Two Phase (slow)\0Three-Phase (RetroArch)\0Two Phase (RetroArch)\0";
 	ui_label = "Bleeding Mode [VHSPro]";
 	ui_tooltip = "Toggles between different bleeding modes.";
 > = 0;
@@ -149,7 +149,7 @@ uniform bool VHS_YIQNoise <
 
 uniform int signalNoiseType <
 	ui_type = "combo";
-	ui_items = "Type 1\0Type 2\0Type 3";
+	ui_items = "Type 1\0Type 2\0Type 3\0";
 	ui_label = "Signal Noise Type [VHS Pro]";
 > = 0;
 
