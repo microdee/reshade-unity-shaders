@@ -116,7 +116,7 @@ uniform bool bGAP_absoluteGrayscale <
 
 uniform int bGAP_alternateGrayscale <
 	ui_type = "combo";
-	ui_items = "RGB\0YUV/YIQ\0ATSC";
+	ui_items = "RGB\0YUV/YIQ\0ATSC\0";
 	ui_label = "Grayscale Mode [Graphics Adapter Pro]";
 	ui_tooltip = "Alternate Grayscale algorithms.";
 > = 0;
