@@ -67,7 +67,7 @@ uniform float iGAP_bakSize <
 
 uniform int iGAP_colorMode <
 	ui_type = "combo";
-	ui_items = "RGB\0YIQ (YI-Synced)\0YIQ (NTSC)\0Grayscale";
+	ui_items = "RGB\0YIQ (YI-Synced)\0YIQ (NTSC)\0Grayscale\0";
 	ui_label = "Color Mode [Graphics Adapter Pro]";
 	ui_tooltip = "Changes the color encoding mode.";
 > = 1;
@@ -137,8 +137,8 @@ uniform int iGAP_bayerMode <
 
 uniform float fGAP_ditherAmount <
 	ui_type = "drag";
-	ui_min = -1.0;
-	ui_max = 3.0;
+	ui_min = -15.0;
+	ui_max = 15.0;
 	ui_label = "Dither Amount [Graphics Adapter Pro]";
 	ui_tooltip = "Amount of dithering applied on the image.";
 > = 1.0;
