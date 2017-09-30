@@ -278,10 +278,7 @@ sampler2D sBackground
 
 //functions////////////////////////////////////////////////////////////////////////////////////////////
 
-float mod(float x, float y)
-{
-	return x - y * floor (x/y);
-}
+#define mod(x,y) (x-y*floor(x/y))
 
 float fmod(float a, float b)
 {
