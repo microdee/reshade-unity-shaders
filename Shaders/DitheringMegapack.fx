@@ -24,8 +24,8 @@ uniform float _ReduceResolution	<
 	
 #include "ReShade.fxh"
 	
-texture2D texPalette  <string source = "Dithering/Palettes/" texPalName;> { Width = Palette_Texture_Width;Height = 1;Format = RGBA8;};
-texture2D texPattern  <string source = "Dithering/Patterns/" texPatternName;> { Width = Pattern_Texture_Size;Height = Pattern_Texture_Size;Format = RGBA8;};
+texture2D texPalette  <source = "Dithering/Palettes/" texPalName;> { Width = Palette_Texture_Width;Height = 1;Format = RGBA8;};
+texture2D texPattern  <source = "Dithering/Patterns/" texPatternName;> { Width = Pattern_Texture_Size;Height = Pattern_Texture_Size;Format = RGBA8;};
 
 sampler2D _Palette
 {

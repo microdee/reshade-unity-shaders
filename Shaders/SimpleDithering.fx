@@ -10,7 +10,7 @@
 	
 #include "ReShade.fxh"
 
-texture2D texPattern  <string source = "Dithering/Patterns/" texPatternName;> { Width = Pattern_Texture_Size;Height = Pattern_Texture_Size;Format = RGBA8;};
+texture2D texPattern  <source = "Dithering/Patterns/" texPatternName;> { Width = Pattern_Texture_Size;Height = Pattern_Texture_Size;Format = RGBA8;};
 
 sampler2D _PatternTex
 {
