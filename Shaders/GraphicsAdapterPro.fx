@@ -11,13 +11,11 @@
 //user variables///////////////////////////////////////////////////////////////////////////////////////
 
 uniform bool bGAP_doResolution <
-	ui_type = "combo";
 	ui_label = "Custom Screen Resolution [Graphics Adapter Pro]";
 	ui_tooltip = "The picture will be quantized vertically and horizontally.";
 > = false;
 
 uniform bool bGAP_screenStretch <
-	ui_type = "combo";
 	ui_label = "Stretch Screen [Graphics Adapter Pro]";
 	ui_tooltip = "Stretches the picture to the size of the whole window.";
 > = false;
@@ -52,7 +50,6 @@ uniform float3 f3GAP_backgroundColor <
 > = float3(0.0,0.0,0.0);
 
 uniform bool bGAP_useBackgroundTexture <
-	ui_type = "combo";
 	ui_label = "Background Texture [Graphics Adapter Pro]";
 	ui_tooltip = "Use a texture for the background.\nSet its size and name in Preprocessor Definitions incase needed. (texBKName/bakTexSize)";
 > = false;
@@ -73,7 +70,6 @@ uniform int iGAP_colorMode <
 > = 1;
 
 uniform bool bGAP_syncChannels <
-	ui_type = "combo";
 	ui_label = "Sync Color Channels [Graphics Adapter Pro]";
 	ui_tooltip = "Syncs the colors bits per pixel.";
 > = true;
@@ -109,7 +105,6 @@ uniform float3 f3GAP_grayscaleColor <
 > = float3(0.5, 0.5, 0.5);
 
 uniform bool bGAP_absoluteGrayscale <
-	ui_type = "combo";
 	ui_label = "Absolute Grayscale [Graphics Adapter Pro]";
 	ui_tooltip = "Completely colors the Grayscale when using palettes.";
 > = false;
@@ -144,13 +139,11 @@ uniform float fGAP_ditherAmount <
 > = 1.0;
 
 uniform bool bGAP_temporalNoise <
-	ui_type = "combo";
 	ui_label = "Temporal Dithering [Graphics Adapter Pro]";
 	ui_tooltip = "Makes Noise ditherings temporal.";
 > = false;
 
 uniform bool bGAP_doSubsampling <
-	ui_type = "combo";
 	ui_label = "Subsampling [Graphics Adapter Pro]";
 	ui_tooltip = "Enables Chroma Subsampling.";
 > = false;
@@ -172,13 +165,11 @@ uniform int iGAP_subsampleHeight <
 > = 1;
 
 uniform bool bGAP_usePalette <
-	ui_type = "combo";
 	ui_label = "Use Palette [Graphics Adapter Pro]";
 	ui_tooltip = "Uses a specific color palette.\nSet its size and name in Preprocessor Definitions incase needed. (texName/paletteSize)";
 > = false;
 
 uniform bool bGAP_useRPalette <
-	ui_type = "combo";
 	ui_label = "Use Replacement Palette [Graphics Adapter Pro]";
 	ui_tooltip = "Uses a replacement color palette.\nSet its size and name in Preprocessor Definitions incase needed. (texRName/rpaletteSize)";
 > = false;
