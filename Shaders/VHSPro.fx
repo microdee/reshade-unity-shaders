@@ -438,8 +438,9 @@ uniform float  Timer < source = "timer"; >;
 
 static const float Pi2 = 6.283185307;
 
-#define TEXHEIGHT   int(min(noiseLinesRes, screenLinesRes))
-#define TEXWIDTH 	int(((float)TEXHEIGHT*(float)BUFFER_WIDTH/(float)BUFFER_HEIGHT))
+//#define TEXHEIGHT   int(min(noiseLinesRes, screenLinesRes))
+#define TEXHEIGHT   noiseLinesRes
+#define TEXWIDTH 	((float)TEXHEIGHT*BUFFER_ASPECT_RATIO)
 
 texture2D VHS_InputTexA    { Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA8; };
 texture2D VHS_InputTexB    { Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA8; };
