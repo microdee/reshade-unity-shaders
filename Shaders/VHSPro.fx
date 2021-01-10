@@ -6,7 +6,7 @@
 
 #include "ReShade.fxh"
 
-#pragma reshade showstatistics;
+// #pragma reshade showstatistics;
 
 uniform float screenLinesNum <
 	ui_type = "drag";
