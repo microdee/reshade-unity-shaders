@@ -10,140 +10,135 @@
 
 uniform float screenLinesNum <
 	ui_type = "drag";
-	ui_min = "1.0";
-	ui_max = "(float)BUFFER_HEIGHT";
-	ui_label = "Screen Resolution [VHSPro]";
+	ui_min = 1.0;
+	ui_max = BUFFER_HEIGHT;
+	ui_label = "Screen Resolution";
 	ui_tooltip = "Screen Resolution (in lines).\nChange screenLinesRes in Preprocessor Definitions to have the same value as this.";
-> = (float)BUFFER_HEIGHT;
+> = BUFFER_HEIGHT;
 
 uniform bool VHS_Bleed <
-	ui_type = "combo";
-	ui_label = "Bleeding [VHSPro]";
+	ui_label = "Bleeding";
 	ui_tooltip = "Enables beam screen bleeding (makes the image blurry).";
 > = true;
 
 uniform int VHS_BleedMode <
 	ui_type = "combo";
 	ui_items = "Three Phase\0Old Three Phase\0Two Phase (slow)\0Three-Phase (RetroArch)\0Two Phase (RetroArch)\0";
-	ui_label = "Bleeding Mode [VHSPro]";
+	ui_label = "Bleeding Mode";
 	ui_tooltip = "Toggles between different bleeding modes.";
 > = 0;
 
 uniform float bleedAmount <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "15.0";
-	ui_label = "Bleed Stretch [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 15.0;
+	ui_label = "Bleed Stretch";
 	ui_tooltip = "Length of the bleeding.";
 > = 1.0;
 
 uniform bool VHS_FishEye <
-	ui_type = "combo";
-	ui_label = "Fisheye [VHSPro]";
+	ui_label = "Fisheye";
 	ui_tooltip = "Enables a CRT Curvature.";
 > = true;
 
 uniform bool VHS_FishEye_Hyperspace <
-	ui_type = "combo";
-	ui_label = "Fisheye Hyperspace [VHSPro]";
+	ui_label = "Fisheye Hyperspace";
 	ui_tooltip = "Changes the curvature to look like some sort of hyperspace warping.";
 > = false;
 
 uniform float fisheyeBend <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "50.0";
-	ui_label = "Fisheye Bend [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 50.0;
+	ui_label = "Fisheye Bend";
 	ui_tooltip = "Curvature of the CRT.";
 > = 2.0;
 
 uniform float cutoffX <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "50.0";
-	ui_label = "Fisheye Cutoff X [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 50.0;
+	ui_label = "Fisheye Cutoff X";
 	ui_tooltip = "Cutoff of the Horizontal Borders.";
 > = 2.0;
 
 uniform float cutoffY <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "50.0";
-	ui_label = "Fisheye Cutoff Y [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 50.0;
+	ui_label = "Fisheye Cutoff Y";
 	ui_tooltip = "Cutoff of the Vertical Borders.";
 > = 3.0;
 
 uniform float cutoffFadeX <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "50.0";
-	ui_label = "Fisheye Cutoff Fade X [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 50.0;
+	ui_label = "Fisheye Cutoff Fade X";
 	ui_tooltip = "Size of the Horizontal gradient cutoff.";
 > = 25.0;
 
 uniform float cutoffFadeY <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "50.0";
-	ui_label = "Fisheye Cutoff Fade Y [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 50.0;
+	ui_label = "Fisheye Cutoff Fade Y";
 	ui_tooltip = "Size of the Vertical gradient cutoff.";
 > = 25.0;
 
 uniform bool VHS_Vignette <
-	ui_type = "bool";
-	ui_label = "Vignette [VHSPro]";
+	// ui_type = "bool";
+	ui_label = "Vignette";
 	ui_tooltip = "Enables screen vignetting";
 > = false;
 
 uniform float vignetteAmount <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "5.0";
-	ui_label = "Vignette Amount [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 5.0;
+	ui_label = "Vignette Amount";
 	ui_tooltip = "Strength of the vignette.";
 > = 1.0;
 
 uniform float vignetteSpeed <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "5.0";
-	ui_label = "Vignette Pulse Speed [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 5.0;
+	ui_label = "Vignette Pulse Speed";
 	ui_tooltip = "Speed of the vignette pulsing. (Setting it to 0 makes it stop pulsing)";
 > = 1.0;
 
 uniform float noiseLinesNum <
 	ui_type = "drag";
-	ui_min = "1.0";
-	ui_max = "(float)BUFFER_HEIGHT";
-	ui_label = "Vertical Resolution [VHSPro]";
+	ui_min = 1.0;
+	ui_max = BUFFER_HEIGHT;
+	ui_label = "Vertical Resolution";
 	ui_tooltip = "Noise Resolution (in lines).\nChange noiseLinesRes in Preprocessor Definitions to have the same value as this.";
 > = 240.0;
 
 uniform float noiseQuantizeX <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "1.0";
-	ui_label = "Quantize Noise X [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 1.0;
+	ui_label = "Quantize Noise X";
 	ui_tooltip = "Makes the noise longer or shorter.";
 > = 0.0;
 
 uniform bool VHS_FilmGrain <
-	ui_type = "combo";
-	ui_label = "Film Grain [VHSPro]";
+	ui_label = "Film Grain";
 	ui_tooltip = "Enables a Film Grain on the screen.";
 > = false;
 
 uniform float filmGrainAmount <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "0.1";
-	ui_label = "Film Grain Alpha [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 0.1;
+	ui_label = "Film Grain Alpha";
 	ui_tooltip = "Intensity of the Film Grain.";
 > = 0.016;
 
 uniform bool VHS_YIQNoise <
-	ui_type = "combo";
-	ui_label = "Signal Noise [VHSPro]";
+	ui_label = "Signal Noise";
 	ui_tooltip = "Adds noise to the YIQ Signal, causing a Pink (or green) noise.";
 > = true;
 
@@ -155,278 +150,266 @@ uniform int signalNoiseType <
 
 uniform float signalNoiseAmount <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "1.0";
-	ui_label = "Signal Noise Amount [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 1.0;
+	ui_label = "Signal Noise Amount";
 	ui_tooltip = "Amount of the signal noise.";
 > = 0.15;
 
 uniform float signalNoisePower <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "1.0";
-	ui_label = "Signal Noise Power [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 1.0;
+	ui_label = "Signal Noise Power";
 	ui_tooltip = "Power of the signal noise. Higher values will make it green, lower values will make it more pink.";
 > =  0.83;
 
 uniform bool VHS_LineNoise <
-	ui_type = "combo";
-	ui_label = "Line Noise [VHSPro]";
+	ui_label = "Line Noise";
 	ui_tooltip = "Enables blinking line noise in the image.";
 > = true;
 
 uniform float lineNoiseAmount <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "10.0";
-	ui_label = "Line Noise Amount [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 10.0;
+	ui_label = "Line Noise Amount";
 	ui_tooltip = "Intensity of the line noise.";
 > = 1.0;
 
 uniform float lineNoiseSpeed <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "10.0";
-	ui_label = "Line Noise Speed [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 10.0;
+	ui_label = "Line Noise Speed";
 	ui_tooltip = "Speed of the line noise blinking delay.";
 > = 5.0;
 
 uniform bool VHS_TapeNoise <
-	ui_type = "combo";
-	ui_label = "Tape Noise [VHSPro]";
+	ui_label = "Tape Noise";
 	ui_tooltip = "Adds scrolling noise like in old VHS Tapes.";
 > = true;
 
 uniform float tapeNoiseTH <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "1.5";
-	ui_label = "Tape Noise Amount [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 1.5;
+	ui_label = "Tape Noise Amount";
 	ui_tooltip = "Intensity of Tape Noise in the image.";
 > = 0.63;
 
 uniform float tapeNoiseAmount <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "1.5";
-	ui_label = "Tape Noise Alpha [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 1.5;
+	ui_label = "Tape Noise Alpha";
 	ui_tooltip = "Amount of Tape Noise in the image.";
 > = 1.0;
 
 uniform float tapeNoiseSpeed <
 	ui_type = "drag";
-	ui_min = "-1.5";
-	ui_max = "1.5";
-	ui_label = "Tape Noise Speed [VHSPro]";
+	ui_min = -1.5;
+	ui_max = 1.5;
+	ui_label = "Tape Noise Speed";
 	ui_tooltip = "Scrolling speed of the Tape Noise.";
 > = 1.0;
 
 uniform bool VHS_ScanLines <
-	ui_type = "combo";
-	ui_label = "Scanlines [VHSPro]";
+	ui_label = "Scanlines";
 	ui_tooltip = "Enables TV/CRT Scanlines";
 > = false;
 
 uniform float scanLineWidth <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "20.0";
-	ui_label = "Scanlines Width [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 20.0;
+	ui_label = "Scanlines Width";
 	ui_tooltip = "Width of the Scanlines";
 > = 10.0;
 
 uniform bool VHS_LinesFloat	<
-	ui_type = "combo";
-	ui_label = "Lines Float [VHSPro]";
+	ui_label = "Lines Float";
 	ui_tooltip = "Makes the lines of the screen floats up or down. Works best with low Screen Lines resolutions.";
 > = false;
 
 uniform float linesFloatSpeed <
 	ui_type = "drag";
-	ui_min = "-3.0";
-	ui_max = "3.0";
-	ui_label = "Lines Float Speed [VHSPro]";
+	ui_min = -3.0;
+	ui_max = 3.0;
+	ui_label = "Lines Float Speed";
 	ui_tooltip = "Speed (and direction) of the floating lines.";
 > = 1.0;
 
 uniform bool VHS_Stretch <
-	ui_type = "combo";
-	ui_label = "Stretch Noise [VHSPro]";
+	ui_label = "Stretch Noise";
 	ui_tooltip = "Enables a stretching noise that scrolls up and down on the Image, simulating magnetic interference of VHS tapes.";
 > = true;
 
 uniform bool VHS_Jitter_H <
-	ui_type = "bool";
-	ui_label = "Interlacing [VHSPro]";
+	ui_label = "Interlacing";
 	ui_tooltip = "Enables Interlacing.";
 > = true;
 
 uniform float jitterHAmount <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "5.0";
-	ui_label = "Interlacing Amount [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 5.0;
+	ui_label = "Interlacing Amount";
 	ui_tooltip = "Strength of the Interlacing.";
 > = 0.5;
 
 uniform bool VHS_Jitter_V <
-	ui_type = "bool";
-	ui_label = "Jitter [VHSPro]";
+	ui_label = "Jitter";
 	ui_tooltip = "Adds vertical jittering noise.";
 > = false;
 
 uniform float jitterVAmount <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "15.0";
-	ui_label = "Jitter Amount [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 15.0;
+	ui_label = "Jitter Amount";
 	ui_tooltip = "Amount of the vertical jittering noise.";
 > = 1.0; 
 
 uniform float jitterVSpeed <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "5.0";
-	ui_label = "Jitter Speed [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 5.0;
+	ui_label = "Jitter Speed";
 	ui_tooltip = "Speed of the vertical jittering noise.";
 > = 1.0;
 
 uniform bool VHS_Twitch_H <
-	ui_type = "combo";
-	ui_label = "Horizontal Twitch [VHSPro]";
+	ui_label = "Horizontal Twitch";
 	ui_tooltip = "Makes the image twitches horizontally in certain timed intervals.";
 > = false;
 
 uniform float twitchHFreq <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "5.0";
-	ui_label = "Horizontal Twitch Frequency [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 5.0;
+	ui_label = "Horizontal Twitch Frequency";
 	ui_tooltip = "Frequency of time in which the image twitches horizontally.";
 > = 1.0;
 
 uniform bool VHS_Twitch_V <
-	ui_type = "combo";
-	ui_label = "Vertical Twitch [VHSPro]";
+	ui_label = "Vertical Twitch";
 	ui_tooltip = "Makes the image twitches vertically in certain timed intervals.";
 > = false;
 
 uniform float twitchVFreq <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "5.0";
-	ui_label = "Vertical Twitch Frequency [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 5.0;
+	ui_label = "Vertical Twitch Frequency";
 	ui_tooltip = "Frequency of time in which the image twitches vertically.";
 > = 1.0;
 
 uniform bool VHS_SignalTweak <
-	ui_type = "combo";
-	ui_label = "Signal Tweak [VHSPro]";
+	ui_label = "Signal Tweak";
 	ui_tooltip = "Tweak the values of the YIQ signal.";
 > = false;
 
 uniform float signalAdjustY <
 	ui_type = "drag";
-	ui_min = "-0.25";
-	ui_max = "0.25";
-	ui_label = "Signal Shift Y [VHSPro]";
+	ui_min = -0.25;
+	ui_max = 0.25;
+	ui_label = "Signal Shift Y";
 	ui_tooltip = "Shifts/Tweaks the Luma part of the signal.";
 > = 0.0;
 uniform float signalAdjustI <
 	ui_type = "drag";
-	ui_min = "-0.25";
-	ui_max = "0.25";
-	ui_label = "Signal Shift I [VHSPro]";
+	ui_min = -0.25;
+	ui_max = 0.25;
+	ui_label = "Signal Shift I";
 	ui_tooltip = "Shifts/Tweaks the Chroma part of the signal.";
 > = 0.0;
 
 uniform float signalAdjustQ <
 	ui_type = "drag";
-	ui_min = "-0.25";
-	ui_max = "0.25";
-	ui_label = "Signal Shift Q [VHSPro]";
+	ui_min = -0.25;
+	ui_max = 0.25;
+	ui_label = "Signal Shift Q";
 	ui_tooltip = "Shifts/Tweaks the Chroma part of the signal.";
 > = 0.0;
 
 uniform float signalShiftY <
 	ui_type = "drag";
-	ui_min = "-2.0";
-	ui_max = "2.0";
-	ui_label = "Signal Adjust Y [VHSPro]";
+	ui_min = -2.0;
+	ui_max = 2.0;
+	ui_label = "Signal Adjust Y";
 	ui_tooltip = "Adjusts the Luma part of the signal.";
 > = 1.0;
 
 uniform float signalShiftI <
 	ui_type = "drag";
-	ui_min = "-2.0";
-	ui_max = "2.0";
-	ui_label = "Signal Adjust I [VHSPro]";
+	ui_min = -2.0;
+	ui_max = 2.0;
+	ui_label = "Signal Adjust I";
 	ui_tooltip = "Adjusts the Chroma part of the signal.";
 > = 1.0;
 
 uniform float signalShiftQ <
 	ui_type = "drag";
-	ui_min = "-2.0";
-	ui_max = "2.0";
-	ui_label = "Signal Adjust Q [VHSPro]";
+	ui_min = -2.0;
+	ui_max = 2.0;
+	ui_label = "Signal Adjust Q";
 	ui_tooltip = "Adjusts the Chroma part of the signal.";
 > = 1.0;
 
 uniform float gammaCorection <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "2.0";
-	ui_label = "Signal Gamma Correction [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 2.0;
+	ui_label = "Signal Gamma Correction";
 	ui_tooltip = "Gamma corrects the image.";
 > = 1.0;
 
 uniform bool VHS_Feedback <
-	ui_type = "combo";
-	ui_label = "Phosphor Trails [VHSPro]";
+	ui_label = "Phosphor Trails";
 	ui_tooltip = "Enables phosphor-trails from old CRT monitors.";
 > = false;
 
 uniform float feedbackAmount <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "3.0";
-	ui_label = "Input Amount [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 3.0;
+	ui_label = "Input Amount";
 	ui_tooltip = "Amount of Phosphor Trails.";
 > = 2.0;
 
 uniform float feedbackFade <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "1.0";
-	ui_label = "Phosphor Fade [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 1.0;
+	ui_label = "Phosphor Fade";
 	ui_tooltip = "Fade-time of the phosphor-trails.";
 > = 0.82;
 
 uniform float feedbackThresh <
 	ui_type = "drag";
-	ui_min = "0.0";
-	ui_max = "1.0";
-	ui_label = "Input Cutoff [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 1.0;
+	ui_label = "Input Cutoff";
 	ui_tooltip = "Cutoff of the trail.";
 > = 0.1;
 
 uniform float3 feedbackColor <
 	ui_type = "color";
-	ui_label = "Phosphor Trail Color [VHSPro]";
+	ui_label = "Phosphor Trail Color";
 	ui_tooltip = "Color of the trail.";
 > = float3(1.0,0.5,0.0);
 
 uniform bool feedbackDebug <
-	ui_type = "bool";
-	ui_label = "Debug Trail [VHS Pro]";
+	ui_label = "Debug Trail";
 	ui_tooltip = "Enables the visualization of the phosphor-trails only.";
 > = false;
 
 uniform int VHS_Filter <
 	ui_type = "drag";
-	ui_min ="0.0";
-	ui_max ="0.0";
-	ui_label = "Linear Filtering [VHSPro]";
+	ui_min = 0.0;
+	ui_max = 1.0;
+	ui_label = "Linear Filtering";
 	ui_tooltip = "Filters the image linearly, increasing quality.\nDefine VHSLINEARFILTER in Preprocessor Definitions to take effect, this is only here as a reminder.";
 > = 0.0;
 
