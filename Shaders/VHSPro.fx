@@ -433,7 +433,7 @@ static const float filmGrainPower = 1.0;				//Film Grain Power (DO NOT CHANGE)
 static const float feedbackAmp = 1.0; 					//Feedback Amp (DO NOT CHANGE)
 
 #define _ScreenParams float2(BUFFER_WIDTH, BUFFER_HEIGHT)
-#define PixelSize  	float2(BUFFER_RCP_WIDTH, BUFFER_RCP_HEIGHT)
+//#define PixelSize  	float2(BUFFER_RCP_WIDTH, BUFFER_RCP_HEIGHT)
 uniform float  Timer < source = "timer"; >;
 
 static const float Pi2 = 6.283185307;
@@ -840,7 +840,7 @@ float3 yiqDist(float2 uv, float m, float t)
 						return signal;    
 }
 
-#define fixCoord (p - float2( 0.5 * PixelSize.x, .0)) 
+#define fixCoord (p - float2( 0.5 * ReShade::PixelSize.x, .0)) 
 #define fetch_offset(offset, one_x) t2d(fixCoord + float2( (offset) * (ONE_X), 0.0));
 
 /////////////////////////PIXEL SHADERS//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
